@@ -1,4 +1,6 @@
-﻿namespace SalesProject.Domain.Models;
+﻿using SalesProject.Domain.Repositories;
+
+namespace SalesProject.Domain.Models;
 
 public class Client
 {
@@ -17,4 +19,12 @@ public class Client
     public string PhoneNumber { get; set; }
 
     public ICollection<Product> Products { get; set; }
+
+    public void AddProduct(List<Product> products)
+    {
+        foreach(var product in products)
+        {
+            Products.Add(product);
+        }
+    }
 }

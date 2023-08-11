@@ -10,6 +10,7 @@ public class Product
         Price = price;
         Amout = amout;
         Tag = tag;
+        Clients = new List<Client>();
     }
 
     public Guid Id { get; }
@@ -18,4 +19,6 @@ public class Product
     public decimal Price { get; set; }
     public int Amout { get; set; }
     public string Tag { get; set; }
+
+    public ICollection<Client> Clients { get; set; }
 }

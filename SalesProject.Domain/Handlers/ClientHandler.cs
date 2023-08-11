@@ -7,7 +7,7 @@ using SalesProject.Domain.Repositories;
 
 namespace SalesProject.Domain.Handlers;
 
-public class ClientHandler : IHandler<CreateClientCommand>, IHandler<UpdateClientCommand>, IHandler<DeleteClientCommand>
+public class ClientHandler : IHandler<CreateClientCommand>, IHandler<UpdateClientCommand>, IHandler<DeleteClientCommand>, IHandler<AddProductsClientCommand>
 {
     private readonly IClientRepository _repository;
 
@@ -41,5 +41,13 @@ public class ClientHandler : IHandler<CreateClientCommand>, IHandler<UpdateClien
         _repository.Delete(client);
 
         return new GenericCommandResult(true, "Cliente removido com sucesso!", command.Id);
+    }
+
+    public ICommandResult Handle(AddProductsClientCommand command)
+    {
+        var client = _repository.GetById(command.Id);
+        client.AddProduct(command.Products);
+
+        return new GenericCommandResult(true, "Produtos adicionados com sucesso!", client);
     }
 }
