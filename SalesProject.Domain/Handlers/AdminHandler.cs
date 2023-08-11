@@ -18,7 +18,7 @@ public class AdminHandler : IHandler<CreateAdminCommand>, IHandler<UpdateAdminCo
 
     public ICommandResult Handle(CreateAdminCommand command)
     {
-        var admin = new Admin(command.Name, command.Email, command.PasswordHash, command.Role);
+        var admin = new Admin(command.Name, command.Email, command.PasswordHash);
         _repository.Create(admin);
 
         return new GenericCommandResult(true, "Admin cadastrado com sucesso!", admin);
@@ -30,7 +30,6 @@ public class AdminHandler : IHandler<CreateAdminCommand>, IHandler<UpdateAdminCo
         admin.Name = command.Name;
         admin.Email = command.Email;
         admin.PasswordHash = command.PasswordHash;
-        admin.Role = command.Role;
         _repository.Update(admin);
 
         return new GenericCommandResult(true, "Admin atualizado com sucesso!", admin);

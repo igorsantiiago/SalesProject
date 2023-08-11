@@ -30,7 +30,7 @@ public class ProductHandler : IHandler<CreateProductCommand>, IHandler<UpdatePro
         product.Name = command.Name;
         product.Description = command.Description;
         product.Price = command.Price;
-        product.Amout = command.Amount;
+        product.Amount = command.Amount;
         product.Tag = command.Tag;
         _repository.Update(product);
 
