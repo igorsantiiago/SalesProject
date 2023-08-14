@@ -27,6 +27,12 @@ public class ClientRepository : IClientRepository
         _context.SaveChanges();
     }
 
+    public void Update(Client client)
+    {
+        _context.Entry(client).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+
     public IEnumerable<Client> GetAll() => _context.Clients.AsNoTracking().ToList();
 
     public IEnumerable<Client> GetByEmail(string email) => _context.Clients.AsNoTracking().Where(ClientQueries.GetByEmail(email));
@@ -38,10 +44,4 @@ public class ClientRepository : IClientRepository
     }
 
     public IEnumerable<Client> GetByName(string name) => _context.Clients.AsNoTracking().Where(ClientQueries.GetByName(name));
-
-    public void Update(Client client)
-    {
-        _context.Entry(client).State = EntityState.Modified;
-        _context.SaveChanges();
-    }
 }

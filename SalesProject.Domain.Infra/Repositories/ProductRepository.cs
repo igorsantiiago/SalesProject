@@ -27,6 +27,12 @@ public class ProductRepository : IProductRepository
         _context.SaveChanges();
     }
 
+    public void Update(Product product)
+    {
+        _context.Entry(product).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+
     public IEnumerable<Product> GetAll() => _context.Products.AsNoTracking().ToList();
 
     public Product GetById(Guid id)
@@ -38,10 +44,4 @@ public class ProductRepository : IProductRepository
     public IEnumerable<Product> GetByName(string name) => _context.Products.AsNoTracking().Where(ProductQueries.GetByName(name)).ToList();
 
     public IEnumerable<Product> GetByTag(string tag) => _context.Products.AsNoTracking().Where(ProductQueries.GetByTag(tag)).ToList();
-
-    public void Update(Product product)
-    {
-        _context.Entry(product).State = EntityState.Modified;
-        _context.SaveChanges();
-    }
 }

@@ -27,6 +27,12 @@ public class AdminRepository : IAdminRepository
         _context.SaveChanges();
     }
 
+    public void Update(Admin admin)
+    {
+        _context.Entry(admin).State = EntityState.Modified;
+        _context.SaveChanges();
+    }
+
     public IEnumerable<Admin> GetAll() => _context.Admins.AsNoTracking().ToList();
 
     public IEnumerable<Admin> GetByEmail(string email) => _context.Admins.AsNoTracking().Where(AdminQueries.GetByEmail(email));
@@ -40,10 +46,4 @@ public class AdminRepository : IAdminRepository
     public IEnumerable<Admin> GetByName(string name) => _context.Admins.AsNoTracking().Where(AdminQueries.GetByName(name));
 
     public IEnumerable<Admin> GetByRole(string role) => _context.Admins.AsNoTracking().Where(AdminQueries.GetByRole(role));
-
-    public void Update(Admin admin)
-    {
-        _context.Entry(admin).State = EntityState.Modified;
-        _context.SaveChanges();
-    }
 }
