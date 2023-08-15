@@ -22,7 +22,7 @@ public class OrderHandlers : IHandler<CreateOrderCommand>, IHandler<UpdateOrderC
     public ICommandResult Handle(CreateOrderCommand command)
     {
         var order = new Order(command.ClientId);
-        order.TotalCost();
+        order.TotalPriceCalc();
         _repository.Create(order);
 
         return new GenericCommandResult(true, "Pedido criado com sucesso!", order);
@@ -51,7 +51,7 @@ public class OrderHandlers : IHandler<CreateOrderCommand>, IHandler<UpdateOrderC
         var product = _productRepository.GetById(command.ProductId);
 
         order.AddProduct(product);
-        order.TotalCost();
+        order.TotalPriceCalc();
 
         return new GenericCommandResult(true, "Produto adicionado ao pedido com sucesso!", command.Id);
     }

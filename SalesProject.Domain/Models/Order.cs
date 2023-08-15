@@ -18,7 +18,7 @@ public class Order
     public ICollection<Product> Products { get; set; }
 
 
-    public void TotalCost()
+    public void TotalPriceCalc()
     {
         foreach(var product in Products)
         {
