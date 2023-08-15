@@ -10,7 +10,6 @@ public class Product
         Price = price;
         Amount = amount;
         Tag = tag;
-        Clients = new List<Client>();
     }
 
     public Guid Id { get; }
@@ -20,5 +19,6 @@ public class Product
     public int Amount { get; set; }
     public string Tag { get; set; }
 
-    public ICollection<Client> Clients { get; set; }
+    public ICollection<Order> Orders { get; set; }
+
 }

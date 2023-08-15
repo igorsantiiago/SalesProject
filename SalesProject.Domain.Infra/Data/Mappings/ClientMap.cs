@@ -17,8 +17,6 @@ public class ClientMap : IEntityTypeConfiguration<Client>
         builder.Property(client => client.Email).IsRequired().HasColumnName("Email").HasColumnType("NVARCHAR").HasMaxLength(180);
         builder.Property(client => client.PhoneNumber).IsRequired().HasColumnName("PhoneNumber").HasColumnType("NVARCHAR").HasMaxLength(32);
 
-        builder.HasMany(client => client.Products).WithMany(product => product.Clients);
-
         builder.HasIndex(client => client.Name, "IX_Client_Name");
         builder.HasIndex(client => client.Email, "IX_Client_Email");
     }
