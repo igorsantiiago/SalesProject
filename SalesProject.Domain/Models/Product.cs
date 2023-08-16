@@ -1,4 +1,7 @@
-﻿namespace SalesProject.Domain.Models;
+﻿using SalesProject.Domain.Infra.Data.Mappings;
+using System.Text.Json.Serialization;
+
+namespace SalesProject.Domain.Models;
 
 public class Product
 {
@@ -10,6 +13,9 @@ public class Product
         Price = price;
         Amount = amount;
         Tag = tag;
+
+        Orders = new List<Order>();
+        OrderProducts = new List<OrderProduct>();
     }
 
     public Guid Id { get; }
@@ -20,5 +26,6 @@ public class Product
     public string Tag { get; set; }
 
     public ICollection<Order> Orders { get; set; }
+    public ICollection<OrderProduct> OrderProducts { get; set; }
 
 }

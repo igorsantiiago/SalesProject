@@ -5,7 +5,7 @@
 namespace SalesProject.Domain.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class OrderProducts : Migration
+    public partial class RemoveProduct : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -15,10 +15,12 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddTransient<IAdminRepository, AdminRepository>();
     builder.Services.AddTransient<IClientRepository, ClientRepository>();
     builder.Services.AddTransient<IProductRepository, ProductRepository>();
+    builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 
     builder.Services.AddTransient<AdminHandler, AdminHandler>();
     builder.Services.AddTransient<ClientHandler, ClientHandler>();
-    builder.Services.AddTransient<ProductHandler, ProductHandler>();    
+    builder.Services.AddTransient<ProductHandler, ProductHandler>();
+    builder.Services.AddTransient<OrderHandler, OrderHandler>();
 
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();

@@ -6,12 +6,12 @@ namespace SalesProject.Domain.Commands.OrderCommands;
 public class RemoveProductOrderCommand : ICommand
 {
     public RemoveProductOrderCommand() { }
-    public RemoveProductOrderCommand(Guid id, Guid productId)
+    public RemoveProductOrderCommand(Guid orderId, Guid productId)
     {
-        Id = id;
+        OrderId = orderId;
         ProductId = productId;
     }
 
-    public Guid Id { get; set; }
+    public Guid OrderId { get; set; }
     public Guid ProductId { get; set; }
 }

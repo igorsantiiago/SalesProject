@@ -5,12 +5,12 @@ namespace SalesProject.Domain.Commands.OrderCommands;
 public class AddProductOrderCommand : ICommand
 {
     public AddProductOrderCommand() { }
-    public AddProductOrderCommand(Guid id, Guid productId)
+    public AddProductOrderCommand(Guid orderId, Guid productId)
     {
-        Id = id;
+        OrderId = orderId;
         ProductId = productId;
     }
 
-    public Guid Id { get; set; }
+    public Guid OrderId { get; set; }
     public Guid ProductId { get; set; }
 }

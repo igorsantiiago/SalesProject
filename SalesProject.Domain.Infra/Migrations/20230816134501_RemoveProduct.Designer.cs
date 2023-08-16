@@ -12,8 +12,8 @@ using SalesProject.Domain.Infra.Data;
 namespace SalesProject.Domain.Infra.Migrations
 {
     [DbContext(typeof(SalesProjectDbContext))]
-    [Migration("20230815180427_OrderProducts")]
-    partial class OrderProducts
+    [Migration("20230816134501_RemoveProduct")]
+    partial class RemoveProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,17 +25,22 @@ namespace SalesProject.Domain.Infra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OrderProduct", b =>
+            modelBuilder.Entity("SalesProject.Domain.Infra.Data.Mappings.OrderProduct", b =>
                 {
-                    b.Property<Guid>("OrdersId")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProductsId")
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("OrdersId", "ProductsId");
+                    b.Property<DateTime>("CreatedOn")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.HasIndex("ProductsId");
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderProduct");
                 });
@@ -172,17 +177,17 @@ namespace SalesProject.Domain.Infra.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("OrderProduct", b =>
+            modelBuilder.Entity("SalesProject.Domain.Infra.Data.Mappings.OrderProduct", b =>
                 {
                     b.HasOne("SalesProject.Domain.Models.Order", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SalesProject.Domain.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -201,6 +206,16 @@ namespace SalesProject.Domain.Infra.Migrations
             modelBuilder.Entity("SalesProject.Domain.Models.Client", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("SalesProject.Domain.Models.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
+                });
+
+            modelBuilder.Entity("SalesProject.Domain.Models.Product", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 #pragma warning restore 612, 618
         }

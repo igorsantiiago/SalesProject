@@ -37,7 +37,7 @@ public class ProductRepository : IProductRepository
 
     public Product GetById(Guid id)
     {
-        Product? product = _context.Products.AsNoTracking().FirstOrDefault(ProductQueries.GetById(id));
+        Product? product = _context.Products.FirstOrDefault(ProductQueries.GetById(id));
         return product!;
     }
 
