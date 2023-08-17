@@ -22,7 +22,7 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
 
     public ICommandResult Handle(CreateOrderCommand command)
     {
-        var order = new Order(command.ClientId);
+        var order = new Order(command.UserId);
         //order.CalculateTotalPriceAfterAddingProduct();
         _repository.Create(order);
 
@@ -32,7 +32,7 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
     public ICommandResult Handle(UpdateOrderCommand command)
     {
         var order = _repository.GetById(command.Id);
-        order.ClientId = command.ClientId;
+        order.UserId = command.UserId;
         _repository.Update(order);
 
         return new GenericCommandResult(true, "Pedido atualizado com sucesso!", order);

@@ -12,35 +12,6 @@ namespace SalesProject.Domain.Infra.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Admins",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "NVARCHAR(120)", maxLength: 120, nullable: false),
-                    Email = table.Column<string>(type: "NVARCHAR(180)", maxLength: 180, nullable: false),
-                    PasswordHash = table.Column<string>(type: "NVARCHAR(255)", maxLength: 255, nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Clients",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "NVARCHAR(120)", maxLength: 120, nullable: false),
-                    Email = table.Column<string>(type: "NVARCHAR(180)", maxLength: 180, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "NVARCHAR(32)", maxLength: 32, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Clients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -57,27 +28,62 @@ namespace SalesProject.Domain.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "NVARCHAR(80)", maxLength: 80, nullable: false),
+                    Slug = table.Column<string>(type: "NVARCHAR(80)", maxLength: 80, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "NVARCHAR(120)", maxLength: 120, nullable: false),
+                    Email = table.Column<string>(type: "NVARCHAR(180)", maxLength: 180, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "NVARCHAR(32)", maxLength: 32, nullable: false),
+                    PasswordHash = table.Column<string>(type: "NVARCHAR(255)", maxLength: 255, nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "DECIMAL(18,0)", nullable: false),
-                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Clients",
+                        name: "FK_Orders_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderProduct",
+                name: "OrderProducts",
                 columns: table => new
                 {
                     OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -86,15 +92,15 @@ namespace SalesProject.Domain.Infra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderProduct", x => new { x.OrderId, x.ProductId });
+                    table.PrimaryKey("PK_OrderProducts", x => new { x.OrderId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_OrderProduct_Orders_OrderId",
+                        name: "FK_OrderProducts_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderProduct_Products_ProductId",
+                        name: "FK_OrderProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -102,34 +108,14 @@ namespace SalesProject.Domain.Infra.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "Ix_Admin_Email",
-                table: "Admins",
-                column: "Email");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Admin_Name",
-                table: "Admins",
-                column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Client_Email",
-                table: "Clients",
-                column: "Email");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Client_Name",
-                table: "Clients",
-                column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderProduct_ProductId",
-                table: "OrderProduct",
+                name: "IX_OrderProducts_ProductId",
+                table: "OrderProducts",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_ClientId",
+                name: "IX_Orders_UserId",
                 table: "Orders",
-                column: "ClientId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_Name",
@@ -140,16 +126,33 @@ namespace SalesProject.Domain.Infra.Migrations
                 name: "IX_Product_Tag",
                 table: "Products",
                 column: "Tag");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Role_Slug",
+                table: "Roles",
+                column: "Slug");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Email",
+                table: "Users",
+                column: "Email");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Name",
+                table: "Users",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Admins");
-
-            migrationBuilder.DropTable(
-                name: "OrderProduct");
+                name: "OrderProducts");
 
             migrationBuilder.DropTable(
                 name: "Orders");
@@ -158,7 +161,10 @@ namespace SalesProject.Domain.Infra.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Clients");
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }

@@ -12,8 +12,8 @@ using SalesProject.Domain.Infra.Data;
 namespace SalesProject.Domain.Infra.Migrations
 {
     [DbContext(typeof(SalesProjectDbContext))]
-    [Migration("20230816134501_RemoveProduct")]
-    partial class RemoveProduct
+    [Migration("20230817111516_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,84 +42,12 @@ namespace SalesProject.Domain.Infra.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderProduct");
-                });
-
-            modelBuilder.Entity("SalesProject.Domain.Models.Admin", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(180)
-                        .HasColumnType("NVARCHAR")
-                        .HasColumnName("Email");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("NVARCHAR")
-                        .HasColumnName("Name");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("NVARCHAR")
-                        .HasColumnName("PasswordHash");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Name" }, "IX_Admin_Name");
-
-                    b.HasIndex(new[] { "Email" }, "Ix_Admin_Email");
-
-                    b.ToTable("Admins", (string)null);
-                });
-
-            modelBuilder.Entity("SalesProject.Domain.Models.Client", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(180)
-                        .HasColumnType("NVARCHAR")
-                        .HasColumnName("Email");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("NVARCHAR")
-                        .HasColumnName("Name");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("NVARCHAR")
-                        .HasColumnName("PhoneNumber");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Email" }, "IX_Client_Email");
-
-                    b.HasIndex(new[] { "Name" }, "IX_Client_Name");
-
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("OrderProducts");
                 });
 
             modelBuilder.Entity("SalesProject.Domain.Models.Order", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -130,9 +58,12 @@ namespace SalesProject.Domain.Infra.Migrations
                         .HasColumnType("DECIMAL")
                         .HasColumnName("TotalPrice");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -177,6 +108,73 @@ namespace SalesProject.Domain.Infra.Migrations
                     b.ToTable("Products", (string)null);
                 });
 
+            modelBuilder.Entity("SalesProject.Domain.Models.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR")
+                        .HasColumnName("Name");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("NVARCHAR")
+                        .HasColumnName("Slug");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Slug" }, "IX_Role_Slug");
+
+                    b.ToTable("Roles", (string)null);
+                });
+
+            modelBuilder.Entity("SalesProject.Domain.Models.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(180)
+                        .HasColumnType("NVARCHAR")
+                        .HasColumnName("Email");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("NVARCHAR")
+                        .HasColumnName("Name");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("NVARCHAR")
+                        .HasColumnName("PasswordHash");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("NVARCHAR")
+                        .HasColumnName("PhoneNumber");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex(new[] { "Email" }, "IX_User_Email");
+
+                    b.HasIndex(new[] { "Name" }, "IX_User_Name");
+
+                    b.ToTable("Users", (string)null);
+                });
+
             modelBuilder.Entity("SalesProject.Domain.Infra.Data.Mappings.OrderProduct", b =>
                 {
                     b.HasOne("SalesProject.Domain.Models.Order", null)
@@ -194,18 +192,24 @@ namespace SalesProject.Domain.Infra.Migrations
 
             modelBuilder.Entity("SalesProject.Domain.Models.Order", b =>
                 {
-                    b.HasOne("SalesProject.Domain.Models.Client", "Client")
+                    b.HasOne("SalesProject.Domain.Models.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("ClientId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SalesProject.Domain.Models.Client", b =>
+            modelBuilder.Entity("SalesProject.Domain.Models.User", b =>
                 {
-                    b.Navigation("Orders");
+                    b.HasOne("SalesProject.Domain.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("SalesProject.Domain.Models.Order", b =>
@@ -216,6 +220,16 @@ namespace SalesProject.Domain.Infra.Migrations
             modelBuilder.Entity("SalesProject.Domain.Models.Product", b =>
                 {
                     b.Navigation("OrderProducts");
+                });
+
+            modelBuilder.Entity("SalesProject.Domain.Models.Role", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("SalesProject.Domain.Models.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

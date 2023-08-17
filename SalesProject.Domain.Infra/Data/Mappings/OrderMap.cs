@@ -19,6 +19,6 @@ public class OrderMap : IEntityTypeConfiguration<Order>
 
         builder.HasMany(x => x.Products).WithMany(x => x.Orders).UsingEntity<OrderProduct>(x=>x.Property(x=>x.CreatedOn).HasDefaultValueSql("GETUTCDATE()"));
 
-        builder.HasOne(x => x.Client).WithMany(x => x.Orders).HasForeignKey(x => x.ClientId);
+        builder.HasOne(x => x.User).WithMany(x => x.Orders).HasForeignKey(x => x.UserId);
     }
 }

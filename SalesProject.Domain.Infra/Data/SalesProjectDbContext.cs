@@ -10,16 +10,16 @@ public class SalesProjectDbContext : DbContext
     {
         
     }
-    public DbSet<Admin> Admins { get; set; }
-    public DbSet<Client> Clients { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderProduct> OrderProducts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new AdminMap());
-        modelBuilder.ApplyConfiguration(new ClientMap());
+        modelBuilder.ApplyConfiguration(new UserMap());
+        modelBuilder.ApplyConfiguration(new RoleMap());
         modelBuilder.ApplyConfiguration(new ProductMap());
         modelBuilder.ApplyConfiguration(new OrderMap());
     }

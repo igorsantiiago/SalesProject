@@ -5,13 +5,13 @@ namespace SalesProject.Domain.Commands.OrderCommands;
 public class UpdateOrderCommand : ICommand
 {
     public UpdateOrderCommand() { }
-    public UpdateOrderCommand(Guid id, Guid clientId)
+    public UpdateOrderCommand(Guid id, Guid userId)
     {
         Id = id;
-        ClientId = clientId;
+        UserId = userId;
     }
 
     public Guid Id { get; set; }
-    public Guid ClientId { get; set; }
+    public Guid UserId { get; set; }
 
 }

@@ -5,10 +5,10 @@ namespace SalesProject.Domain.Commands.OrderCommands;
 public class CreateOrderCommand : ICommand
 {
     public CreateOrderCommand() { }
-    public CreateOrderCommand(Guid clientId)
+    public CreateOrderCommand(Guid userId)
     {
-        ClientId = clientId;
+        UserId = userId;
     }
 
-    public Guid ClientId { get; set; }
+    public Guid UserId { get; set; }
 }

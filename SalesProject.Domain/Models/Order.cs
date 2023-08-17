@@ -5,11 +5,11 @@ namespace SalesProject.Domain.Models;
 
 public class Order
 {
-    public Order(Guid clientId)
+    public Order(Guid userId)
     {
         Id = Guid.NewGuid();
         CreatedAt = DateTime.UtcNow;
-        ClientId = clientId;
+        UserId = userId;
 
         Products = new List<Product>();
         OrderProducts = new List<OrderProduct>();
@@ -18,8 +18,8 @@ public class Order
     public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public decimal TotalPrice { get; set; }
-    public Guid ClientId { get; set; }
-    public Client Client { get; set; }
+    public Guid UserId { get; set; }
+    public User User { get; set; }
 
 
     public ICollection<Product> Products { get; set; }
