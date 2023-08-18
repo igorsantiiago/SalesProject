@@ -5,13 +5,12 @@ namespace SalesProject.Domain.Commands.ProductCommands;
 public class UpdateProductCommand : ICommand
 {
     public UpdateProductCommand() { }
-    public UpdateProductCommand(Guid id, string name, string description, decimal price, int amount, string tag)
+    public UpdateProductCommand(Guid id, string name, string description, decimal price, string tag)
     {
         Id = id;
         Name = name;
         Description = description;
         Price = price;
-        Amount = amount;
         Tag = tag;
     }
 
@@ -19,6 +18,5 @@ public class UpdateProductCommand : ICommand
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
-    public int Amount { get; set; }
     public string Tag { get; set; }
 }

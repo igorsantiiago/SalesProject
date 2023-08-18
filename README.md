@@ -1,17 +1,7 @@
 ﻿## 🚧 Project in development 🚧
 - Domain.Core 🟢
-	- Models
-	- Commands
-	- IRepositories
-	- Queries
-	- Handlers
 - Domain.Infra 🟢
-	- Data
-		- Mappings
-	- Repositories
 - Api 🟡
-	- Controllers 🟢
-	- Autenticação e Autorização 🔴
 - Interface Gráfica 🔴
 
 
@@ -29,4 +19,5 @@
 ## ⚙️ Conceitos aplicados
 - Conceitos básicos de DDD, delimitando contextos da aplicação.
 - Conceitos básicos de CQRS, separando apenas os comandos de leitura e de escrita.
+- Repository Pattern
 

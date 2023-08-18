@@ -33,20 +33,6 @@ public class OrderRepository : IOrderRepository
         _context.SaveChanges();
     }
 
-    public void AddProduct(Order order, Product product)
-    {
-        order.Products.Add(product);
-        _context.Entry(order).State = EntityState.Modified;
-        _context.SaveChanges();
-    }
-
-    public void RemoveProduct(Order order, Product product) 
-    {
-        var orderProduct = _context.OrderProducts.Single(x => x.OrderId == order.Id && x.ProductId == product.Id);
-        _context.OrderProducts.Remove(orderProduct);
-        _context.SaveChanges();
-    }
-
     public IEnumerable<Order> GetAll()
     {
         return _context.Orders.AsNoTracking().ToList();

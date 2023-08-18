@@ -1,7 +1,4 @@
-﻿using SalesProject.Domain.Infra.Data.Mappings;
-using System.Text.Json.Serialization;
-
-namespace SalesProject.Domain.Models;
+﻿namespace SalesProject.Domain.Models;
 
 public class Order
 {
@@ -39,6 +36,8 @@ public class Order
         foreach (var product in Products)
         {
             TotalPrice -= product.Price;
+            if (TotalPrice <= 0)
+                TotalPrice = 0;
         }
     }
 }

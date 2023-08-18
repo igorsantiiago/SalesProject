@@ -1,5 +1,4 @@
-﻿using SalesProject.Domain.Infra.Data.Mappings;
-using SalesProject.Domain.Models;
+﻿using SalesProject.Domain.Models;
 using System.Linq.Expressions;
 
 namespace SalesProject.Domain.Queries;

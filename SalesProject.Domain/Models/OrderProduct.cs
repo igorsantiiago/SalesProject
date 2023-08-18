@@ -1,4 +1,4 @@
-﻿namespace SalesProject.Domain.Infra.Data.Mappings;
+﻿namespace SalesProject.Domain.Models;
 
 public class OrderProduct
 {

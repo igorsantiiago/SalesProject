@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddTransient<IRoleRepository, RoleRepository>();
     builder.Services.AddTransient<IProductRepository, ProductRepository>();
     builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+    builder.Services.AddTransient<IOrderProductRepository, OrderProductRepository>();
 
     builder.Services.AddTransient<UserHandler, UserHandler>();
     builder.Services.AddTransient<RoleHandler, RoleHandler>();

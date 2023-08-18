@@ -18,7 +18,7 @@ public class ProductHandler : IHandler<CreateProductCommand>, IHandler<UpdatePro
 
     public ICommandResult Handle(CreateProductCommand command)
     {
-        var product = new Product(command.Name, command.Description, command.Price, command.Amount, command.Tag);
+        var product = new Product(command.Name, command.Description, command.Price, command.Tag);
         _repository.Create(product);
 
         return new GenericCommandResult(true, "Produto criado com sucesso!", product);
@@ -30,7 +30,6 @@ public class ProductHandler : IHandler<CreateProductCommand>, IHandler<UpdatePro
         product.Name = command.Name;
         product.Description = command.Description;
         product.Price = command.Price;
-        product.Amount = command.Amount;
         product.Tag = command.Tag;
         _repository.Update(product);
 
