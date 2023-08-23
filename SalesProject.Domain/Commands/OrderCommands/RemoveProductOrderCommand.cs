@@ -1,5 +1,5 @@
 ﻿using SalesProject.Domain.Commands.Contracts;
-using SalesProject.Domain.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace SalesProject.Domain.Commands.OrderCommands;
 
@@ -12,6 +12,9 @@ public class RemoveProductOrderCommand : ICommand
         ProductId = productId;
     }
 
+    [Required(ErrorMessage = "Insira o Id do pedido!")]
     public Guid OrderId { get; set; }
+
+    [Required(ErrorMessage = "Insira o Id do produto!")]
     public Guid ProductId { get; set; }
 }
