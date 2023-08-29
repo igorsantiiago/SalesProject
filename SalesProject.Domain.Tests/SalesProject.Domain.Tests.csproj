@@ -26,4 +26,8 @@
     <ProjectReference Include="..\SalesProject.Domain\SalesProject.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="QueriesTests\" />
+  </ItemGroup>
+
 </Project>

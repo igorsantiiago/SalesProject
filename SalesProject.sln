@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesProject.Domain.Infra",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesProject.Api", "SalesProject.Api\SalesProject.Api.csproj", "{21ACCAF1-F669-4E45-A9B6-633978DC8053}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesProject.Domain.Tests", "SalesProject.Domain.Tests\SalesProject.Domain.Tests.csproj", "{E04299A6-E692-4E88-9741-01931AA82D09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesProject.Domain.Tests", "SalesProject.Domain.Tests\SalesProject.Domain.Tests.csproj", "{E04299A6-E692-4E88-9741-01931AA82D09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

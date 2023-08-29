@@ -26,7 +26,7 @@ public class CreateUserCommand : ICommand
 
     [Required(ErrorMessage = "Insira o número de telefone do usuário!")]
     [StringLength(32, MinimumLength = 8, ErrorMessage = "O número de telefone precisa conter no mínimo 8 caracteres e no máximo 32 caracteres.")]
-    [DataType(DataType.PhoneNumber, ErrorMessage = "Inria um número de telefone válido.")]
+    [DataType(DataType.PhoneNumber, ErrorMessage = "Insira um número de telefone válido.")]
     public string PhoneNumber { get; set; }
 
     [Required(ErrorMessage = "Insira a senha do usuário!")]
