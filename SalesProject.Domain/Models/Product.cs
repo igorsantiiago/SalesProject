@@ -1,4 +1,6 @@
-﻿namespace SalesProject.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SalesProject.Domain.Models;
 
 public class Product
 {
