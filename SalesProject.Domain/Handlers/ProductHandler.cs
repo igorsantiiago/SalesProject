@@ -4,12 +4,14 @@ using SalesProject.Domain.Commands.ProductCommands;
 using SalesProject.Domain.Handlers.Contracts;
 using SalesProject.Domain.Models;
 using SalesProject.Domain.Repositories;
+using SalesProject.Domain.Services;
 
 namespace SalesProject.Domain.Handlers;
 
 public class ProductHandler : IHandler<CreateProductCommand>, IHandler<UpdateProductCommand>, IHandler<DeleteProductCommand>
 {
     private readonly IProductRepository _repository;
+    private HandlerValidation _handlerValidation = new HandlerValidation();
 
     public ProductHandler(IProductRepository repository)
     {
@@ -18,6 +20,10 @@ public class ProductHandler : IHandler<CreateProductCommand>, IHandler<UpdatePro
 
     public ICommandResult Handle(CreateProductCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var product = new Product(command.Name, command.Description, command.Price, command.Tag);
         _repository.Create(product);
 
@@ -26,6 +32,10 @@ public class ProductHandler : IHandler<CreateProductCommand>, IHandler<UpdatePro
 
     public ICommandResult Handle(UpdateProductCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var product = _repository.GetById(command.Id);
         product.Name = command.Name;
         product.Description = command.Description;
@@ -38,6 +48,10 @@ public class ProductHandler : IHandler<CreateProductCommand>, IHandler<UpdatePro
 
     public ICommandResult Handle(DeleteProductCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var product = _repository.GetById(command.Id);
         _repository.Delete(product);
 

@@ -4,12 +4,14 @@ using SalesProject.Domain.Commands.Contracts;
 using SalesProject.Domain.Handlers.Contracts;
 using SalesProject.Domain.Models;
 using SalesProject.Domain.Repositories;
+using SalesProject.Domain.Services;
 
 namespace SalesProject.Domain.Handlers;
 
 public class UserHandler : IHandler<CreateUserCommand>, IHandler<UpdateUserCommand>, IHandler<DeleteUserCommand>
 {
     private readonly IUserRepository _repository;
+    private HandlerValidation _handlerValidation = new HandlerValidation();
 
     public UserHandler(IUserRepository repository)
     {
@@ -18,6 +20,10 @@ public class UserHandler : IHandler<CreateUserCommand>, IHandler<UpdateUserComma
 
     public ICommandResult Handle(CreateUserCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var user = new User(command.Name, command.Email, command.PhoneNumber, command.PasswordHash, command.RoleId);
         _repository.Create(user);
 
@@ -26,6 +32,10 @@ public class UserHandler : IHandler<CreateUserCommand>, IHandler<UpdateUserComma
 
     public ICommandResult Handle(UpdateUserCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var user = _repository.GetById(command.Id);
         user.Name = command.Name;
         user.Email = command.Email;
@@ -38,6 +48,10 @@ public class UserHandler : IHandler<CreateUserCommand>, IHandler<UpdateUserComma
 
     public ICommandResult Handle(DeleteUserCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var user = _repository.GetById(command.Id);
         _repository.Delete(user);
 

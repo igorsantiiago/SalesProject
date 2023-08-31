@@ -4,12 +4,14 @@ using SalesProject.Domain.Commands.RoleCommands;
 using SalesProject.Domain.Handlers.Contracts;
 using SalesProject.Domain.Models;
 using SalesProject.Domain.Repositories;
+using SalesProject.Domain.Services;
 
 namespace SalesProject.Domain.Handlers;
 
 public class RoleHandler : IHandler<CreateRoleCommand>, IHandler<UpdateRoleCommand>, IHandler<DeleteRoleCommand>
 {
     private readonly IRoleRepository _repository;
+    private HandlerValidation _handlerValidation = new HandlerValidation();
 
     public RoleHandler(IRoleRepository repository)
     {
@@ -18,6 +20,10 @@ public class RoleHandler : IHandler<CreateRoleCommand>, IHandler<UpdateRoleComma
 
     public ICommandResult Handle(CreateRoleCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var role = new Role(command.Name, command.Slug);
         _repository.Create(role);
 
@@ -26,6 +32,10 @@ public class RoleHandler : IHandler<CreateRoleCommand>, IHandler<UpdateRoleComma
 
     public ICommandResult Handle(UpdateRoleCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var role = _repository.GetById(command.Id);
         role.Name = command.Name;
         role.Slug = command.Slug;
@@ -36,6 +46,10 @@ public class RoleHandler : IHandler<CreateRoleCommand>, IHandler<UpdateRoleComma
 
     public ICommandResult Handle(DeleteRoleCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var role = _repository.GetById(command.Id);
         _repository.Delete(role);
 

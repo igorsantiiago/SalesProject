@@ -4,6 +4,7 @@ using SalesProject.Domain.Commands.OrderCommands;
 using SalesProject.Domain.Handlers.Contracts;
 using SalesProject.Domain.Models;
 using SalesProject.Domain.Repositories;
+using SalesProject.Domain.Services;
 
 namespace SalesProject.Domain.Handlers;
 
@@ -13,6 +14,7 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
     private readonly IOrderRepository _orderRepository;
     private readonly IProductRepository _productRepository;
     private readonly IOrderProductRepository _orderProductRepository;
+    private HandlerValidation _handlerValidation = new HandlerValidation();
 
     public OrderHandler(IOrderRepository orderRepository, IProductRepository productRepository, IOrderProductRepository orderProductRepository)
     {
@@ -23,6 +25,10 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
 
     public ICommandResult Handle(CreateOrderCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var order = new Order(command.UserId);
         order.CalculateTotalPriceAfterAddingProduct();
         _orderRepository.Create(order);
@@ -32,6 +38,10 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
 
     public ICommandResult Handle(UpdateOrderCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var order = _orderRepository.GetById(command.Id);
         order.UserId = command.UserId;
         _orderRepository.Update(order);
@@ -41,6 +51,10 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
 
     public ICommandResult Handle(DeleteOrderCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var order = _orderRepository.GetById(command.Id);
         _orderRepository.Delete(order);
 
@@ -49,6 +63,10 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
 
     public ICommandResult Handle(AddProductOrderCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var order = _orderRepository.GetById(command.OrderId);
         if(order == null)
             return new GenericCommandResult(false, "Falha na Order!", command.OrderId);
@@ -66,6 +84,10 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
 
     public ICommandResult Handle(RemoveProductOrderCommand command)
     {
+        var validationResponse = _handlerValidation.Validate(command);
+        if (!validationResponse.Success)
+            return validationResponse;
+
         var order = _orderRepository.GetById(command.OrderId);
         if (order == null)
             return new GenericCommandResult(false, "Falha na Order!", command.OrderId);
