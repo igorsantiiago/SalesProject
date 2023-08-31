@@ -16,6 +16,10 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
     private readonly IOrderProductRepository _orderProductRepository;
     private HandlerValidation _handlerValidation = new HandlerValidation();
 
+    public OrderHandler(IOrderRepository orderRepository)
+    {
+        _orderRepository = orderRepository;
+    }
     public OrderHandler(IOrderRepository orderRepository, IProductRepository productRepository, IOrderProductRepository orderProductRepository)
     {
         _orderRepository = orderRepository;
