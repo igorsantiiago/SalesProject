@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.UserCommands;
 
 public class UpdateUserCommand : ICommand
 {
-    public UpdateUserCommand() { }
+    protected UpdateUserCommand() { }
     public UpdateUserCommand(Guid id, string name, string email, string phoneNumber, string passwordHash, Guid roleId)
     {
         Id = id;

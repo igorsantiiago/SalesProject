@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.RoleCommands;
 
 public class CreateRoleCommand : ICommand
 {
-    public CreateRoleCommand() { }
+    protected CreateRoleCommand() { }
     public CreateRoleCommand(string name, string slug)
     {
         Name = name;

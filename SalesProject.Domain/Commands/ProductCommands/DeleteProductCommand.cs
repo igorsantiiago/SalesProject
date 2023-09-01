@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.ProductCommands;
 
 public class DeleteProductCommand : ICommand
 {
-    public DeleteProductCommand() { }
+    protected DeleteProductCommand() { }
     public DeleteProductCommand(Guid id)
     {
         Id = id;

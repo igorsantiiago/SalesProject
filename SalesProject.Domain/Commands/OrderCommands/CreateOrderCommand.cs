@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.OrderCommands;
 
 public class CreateOrderCommand : ICommand
 {
-    public CreateOrderCommand() { }
+    protected CreateOrderCommand() { }
     public CreateOrderCommand(Guid userId)
     {
         UserId = userId;

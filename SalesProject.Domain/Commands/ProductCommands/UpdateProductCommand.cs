@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.ProductCommands;
 
 public class UpdateProductCommand : ICommand
 {
-    public UpdateProductCommand() { }
+    protected UpdateProductCommand() { }
     public UpdateProductCommand(Guid id, string name, string description, decimal price, string tag)
     {
         Id = id;

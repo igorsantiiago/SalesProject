@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.RoleCommands;
 
 public class UpdateRoleCommand : ICommand
 {
-    public UpdateRoleCommand() { }
+    protected UpdateRoleCommand() { }
     public UpdateRoleCommand(Guid id, string name, string slug)
     {
         Id = id;

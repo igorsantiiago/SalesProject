@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.OrderCommands;
 
 public class UpdateOrderCommand : ICommand
 {
-    public UpdateOrderCommand() { }
+    protected UpdateOrderCommand() { }
     public UpdateOrderCommand(Guid id, Guid userId)
     {
         Id = id;

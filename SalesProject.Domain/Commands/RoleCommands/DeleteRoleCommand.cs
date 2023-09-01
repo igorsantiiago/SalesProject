@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.RoleCommands;
 
 public class DeleteRoleCommand : ICommand
 {
-    public DeleteRoleCommand() { }
+    protected DeleteRoleCommand() { }
     public DeleteRoleCommand(Guid id)
     {
         Id = id;

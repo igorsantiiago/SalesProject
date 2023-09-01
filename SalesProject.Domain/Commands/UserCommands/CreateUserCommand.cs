@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.UserCommands;
 
 public class CreateUserCommand : ICommand
 {
-    public CreateUserCommand() { }
+    protected CreateUserCommand() { }
     public CreateUserCommand(string name, string email, string phoneNumber, string passwordHash, Guid roleId)
     {
         Name = name;

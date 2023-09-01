@@ -5,7 +5,7 @@ namespace SalesProject.Domain.Commands.ProductCommands;
 
 public class CreateProductCommand : ICommand
 {
-    public CreateProductCommand() { }
+    protected CreateProductCommand() { }
     public CreateProductCommand(string name, string description, decimal price, string tag)
     {
         Name = name;
