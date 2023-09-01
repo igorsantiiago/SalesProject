@@ -33,6 +33,9 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
         if (!validationResponse.Success)
             return validationResponse;
 
+        if (command.UserId == Guid.Empty)
+            return new GenericCommandResult(false, "Guid inválido!", null!);
+
         var order = new Order(command.UserId);
         order.CalculateTotalPriceAfterAddingProduct();
         _orderRepository.Create(order);
@@ -45,6 +48,9 @@ public class OrderHandler : IHandler<CreateOrderCommand>, IHandler<UpdateOrderCo
         var validationResponse = _handlerValidation.Validate(command);
         if (!validationResponse.Success)
             return validationResponse;
+
+        if (command.UserId == Guid.Empty || command.Id == Guid.Empty)
+            return new GenericCommandResult(false, "Guid inválido!", null!);
 
         var order = _orderRepository.GetById(command.Id);
         order.UserId = command.UserId;
